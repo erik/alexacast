@@ -5,6 +5,7 @@ import flask
 import pychromecast
 
 
+device_name = None
 cast = None
 app = flask.Flask(__name__)
 
@@ -16,6 +17,7 @@ def server(device):
 
     print '>> trying to connect to %s' % device
 
+    device_name = device
     cast = pychromecast.get_chromecast(friendly_name=device)
     if cast is None:
         click.echo("Couldn't find device '%s'" % device)
@@ -79,9 +81,9 @@ def _success(message=''):
 def reconnect():
     global cast
 
-    cast = pychromecast.get_chromecast(friendly_name=cast.friendly_name)
+    cast = pychromecast.get_chromecast(friendly_name=device_name)
     if cast is None:
-        return _error('Failed to connect, is chromecast fucked again?')
+        return _error('Failed to connect to Chromecast named %s.' % device_name)
 
     return _success('Reconnected.')
 

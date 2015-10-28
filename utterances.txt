@@ -1,5 +1,3 @@
-SkipMedia skip this shitty song
-SkipMedia skip this shit
 SkipMedia skip this song
 SkipMedia skip this
 SkipMedia play next song
@@ -10,4 +8,3 @@ PauseMedia pause media
 PauseMedia oh god make it end
 PauseMedia pause
 Reconnect reconnect
-Reconnect unfuck yourself

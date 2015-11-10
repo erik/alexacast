@@ -8,3 +8,6 @@ PauseMedia pause media
 PauseMedia oh god make it end
 PauseMedia pause
 Reconnect reconnect
+Reboot reboot
+Reboot restart
+Reboot explode

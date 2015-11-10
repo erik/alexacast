@@ -14,17 +14,18 @@ app = flask.Flask(__name__)
 @click.option('--device', help='name of chromecast device')
 def server(device):
     global cast
+    global device_name
 
-    print '>> trying to connect to %s' % device
+    print('>> trying to connect to {}'.format(device))
 
     device_name = device
     cast = pychromecast.get_chromecast(friendly_name=device)
     if cast is None:
-        click.echo("Couldn't find device '%s'" % device)
+        click.echo("Couldn't find device '{}'".format(device))
         sys.exit(-1)
 
-    print repr(cast)
-    print 'connected, starting up...'
+    print(repr(cast))
+    print('connected, starting up...')
 
     app.run('0.0.0.0', 8183, debug=True)
 
@@ -32,7 +33,7 @@ def server(device):
 @app.route('/', methods=['POST'])
 def dispatch_request():
     body = flask.request.get_json()
-    print body
+    print(body)
 
     req = body['request']
 
@@ -43,7 +44,8 @@ def dispatch_request():
         'SkipMedia': skip_media,
         'PlayMedia': play_media,
         'PauseMedia': pause_media,
-        'Reconnect': reconnect
+        'Reconnect': reconnect,
+        'Reboot': reboot
     }.get(req['intent']['name'])
 
     if intent_handler:
@@ -82,8 +84,10 @@ def reconnect():
     global cast
 
     cast = pychromecast.get_chromecast(friendly_name=device_name)
-    if cast is None:
-        return _error('Failed to connect to Chromecast named %s.' % device_name)
+    if not cast:
+        return _error(
+            'Failed to connect to Chromecast named %s.' % device_name
+        )
 
     return _success('Reconnected.')
 
@@ -110,6 +114,11 @@ def play_media():
 
 def pause_media():
     cast.media_controller.pause()
+    return _success()
+
+
+def reboot():
+    cast.reboot()
     return _success()
 
 

@@ -18,6 +18,11 @@
     {
       "intent": "Reconnect",
       "slots": []
+    },
+
+    {
+      "intent": "Reboot",
+      "slots": []
     }
   ]
 }

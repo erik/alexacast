@@ -7,7 +7,7 @@
 
     {
       "intent": "PlayMedia",
-        "slots": []
+      "slots": []
     },
 
     {

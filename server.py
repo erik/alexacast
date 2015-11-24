@@ -11,7 +11,7 @@ app = alexandra.Application()
 
 
 @click.command()
-@click.option('--device', help='name of chromecast device')
+@click.option('--device', help='name of chromecast device', required=True)
 def server(device):
     global cast
     global device_name
@@ -27,7 +27,7 @@ def server(device):
     print(repr(cast))
     print('connected, starting up...')
 
-    app.run_debug('0.0.0.0', 8183)
+    app.run('0.0.0.0', 8183)
 
 
 @app.intent('Reconnect')
@@ -38,18 +38,9 @@ def reconnect(slots, session):
 
     if cast is None:
         return alexandra.respond(
-            text='Failed to connect to Chromecast named %s.' % device_name)
+            'Failed to connect to Chromecast named %s.' % device_name)
 
-    return alexandra.respond(text='Reconnected.')
-
-
-@app.intent('SeekMedia')
-def seek_media(slots, session):
-    """TODO """
-    mc = cast.media_controller
-
-    mc.seek(mc.pos)
-    return alexandra.respond(text='TODO')
+    return alexandra.respond('Reconnected.')
 
 
 @app.intent('SkipMedia')
@@ -57,7 +48,7 @@ def skip_media(slots, session):
     mc = cast.media_controller
 
     if not mc.status.supports_skip_forward:
-        return alexandra.respond(text="Skipping not supported")
+        return alexandra.respond("Skipping not supported")
 
     mc.skip()
     return alexandra.respond()
@@ -68,7 +59,7 @@ def play_media(slots, session):
     mc = cast.media_controller
 
     if mc.status.player_is_playing:
-        return alexandra.respond(text="Already playing")
+        return alexandra.respond("Already playing")
 
     mc.play()
     return alexandra.respond()
@@ -79,7 +70,7 @@ def pause_media(slots, session):
     mc = cast.media_controller
 
     if not mc.status.player_is_playing:
-        return alexandra.respond(text="Already paused")
+        return alexandra.respond("Already paused")
 
     mc.pause()
     return alexandra.respond()

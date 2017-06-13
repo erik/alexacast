@@ -10,6 +10,8 @@ TL;DR:
 $ pip install -r requirements.txt
 $ python server.py --device='Your Chromecast Name'
 ```
+Then log in the [Amazon Developer Portal](https://developer.amazon.com/login.html) to setup the skill.
+
 
 ## usage
 
